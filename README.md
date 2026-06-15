@@ -16,9 +16,13 @@ Companies upload their products and support manuals. Their customers get a calm,
 
 ## Demo
 
-<video src="https://github.com/Harigithub11/Mantis/raw/main/docs/demo.mp4" controls width="760"></video>
+<div align="center">
 
-▶️ **[Watch the demo](https://github.com/Harigithub11/Mantis/raw/main/docs/demo.mp4)**. It walks through the landing page, the marketplace, a MOSS grounded diagnosis with the cited manual page shown inline, and the company dashboard with live analytics and AI insights.
+![MANTIS demo](docs/demo.gif)
+
+</div>
+
+The demo walks through the landing page, the marketplace, a MOSS grounded diagnosis with the cited manual page shown inline, and the company dashboard with live analytics and AI insights.
 
 ## Why MANTIS
 
@@ -48,6 +52,20 @@ Generic chatbots guess at fixes. A real technician works from the manual, narrow
 * **AI product insights.** The dashboard groups similar complaints into the top three Common Issues and writes Behaviour Trends and Growth Suggestions from real diagnostic data.
 
 ## How it works
+
+```
+Company uploads manual ──► parse + chunk ──► MOSS index (mantis, tagged with product_id)
+                                                      │
+User describes problem (+ optional photo) ───────────┤
+        │                                             ▼
+   Gemini Vision (photo) ──► enriched query ──► MOSS hybrid retrieve (filtered, <10ms)
+                                                      │
+                                          top-k manual chunks
+                                                      ▼
+                            Gemini technician loop (streamed) ──► cited answer
+                                                      │
+                       citations validated vs retrieved chunks · manual page image · flowchart
+```
 
 1. A company uploads a manual. MANTIS parses and chunks it, then indexes the chunks into the shared MOSS index, tagging each chunk with the product it belongs to.
 2. A customer describes a problem and can attach a photo. Gemini Vision turns the photo into a short observation that makes the search sharper.

@@ -2,7 +2,7 @@
 
 <img src="app/frontend/public/readme.png" alt="MANTIS" width="760" />
 
-# 🦗 MANTIS
+# MANTIS
 
 ### Expert diagnosis. Every time.
 
@@ -10,7 +10,7 @@
 
 Companies upload their products and support manuals. Their customers get a calm, methodical repair technician that reasons over the *actual* documentation, asks the right follow‑up questions, cites the manual page it used, and even reads a photo of the problem.
 
-<sub>Built for the P‑Club UIET hackathon by **Team Legends**.</sub>
+<sub>Built for <b>Moss Hack '26</b> by <b>Team Legends</b>.</sub>
 
 </div>
 

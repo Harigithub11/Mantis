@@ -6,125 +6,104 @@
 
 ### Expert diagnosis. Every time.
 
-**An AI technician that troubleshoots any product from its real manuals — powered by [MOSS](https://github.com/usemoss/moss) retrieval.**
+**An AI technician that troubleshoots any product straight from its real manuals, powered by [MOSS](https://github.com/usemoss/moss) retrieval.**
 
-Companies upload their products and support manuals. Their customers get a calm, methodical repair technician that reasons over the *actual* documentation, asks the right follow‑up questions, cites the manual page it used, and even reads a photo of the problem.
+Companies upload their products and support manuals. Their customers get a calm, methodical repair technician that reasons over the actual documentation, asks the right follow up questions, cites the exact manual page it used, and can even read a photo of the problem.
 
 <sub>Built for <b>Moss Hack '26</b> by <b>Team Legends</b>.</sub>
 
 </div>
 
----
+## Demo
+
+<video src="https://github.com/Harigithub11/Mantis/raw/main/docs/demo.mp4" controls width="760"></video>
+
+▶️ **[Watch the demo](https://github.com/Harigithub11/Mantis/raw/main/docs/demo.mp4)**. It walks through the landing page, the marketplace, a MOSS grounded diagnosis with the cited manual page shown inline, and the company dashboard with live analytics and AI insights.
 
 ## Why MANTIS
 
-Generic chatbots hallucinate fixes. A real technician works from the manual, narrows the cause with questions, and points at the exact page. MANTIS does that — and it is **grounded in MOSS**, so every answer is retrieved from the product's own documentation before the model ever speaks.
+Generic chatbots guess at fixes. A real technician works from the manual, narrows the cause with questions, and points at the exact page. MANTIS does exactly that, and it is grounded in MOSS, so every answer is retrieved from the product's own documentation before the model ever speaks.
 
-> **MOSS is the mandatory retrieval layer.** It is the “R” in RAG: a single shared, cloud‑backed hybrid index (`mantis`) with sub‑10 ms queries. Every chunk is tagged with its `product_id` and retrieved with a metadata filter, so one index scales to every product on the platform. Gemini only ever reasons over what MOSS returns.
+> MOSS is the mandatory retrieval layer. It is the R in RAG. A single shared, cloud backed hybrid index called `mantis` answers queries in under 10 ms. Every chunk is tagged with its `product_id` and retrieved with a metadata filter, so one index scales to every product on the platform. Gemini only ever reasons over what MOSS returns.
 
----
+## Features
 
-## ✨ Features
+### Core
 
-### Must‑have
-- **🔎 Manual ingestion → MOSS** — PDFs are parsed (with OCR fallback), chunked, and indexed into MOSS with page‑level metadata.
-- **🩺 Technician‑style diagnosis** — streaming, methodical reasoning: probable cause → safe checks → recommended fix. Asks **one** follow‑up question when it needs more signal.
-- **📚 Grounded citations** — every claim cites the real manual file + page, validated against the chunks MOSS actually retrieved. *“⚡ Powered by MOSS · 1 ms”* is shown on every answer.
-- **🏬 Marketplace + company dashboard** — browse products by category; companies manage products, manuals, analytics and insights.
+* **Manual ingestion into MOSS.** Company PDFs are parsed (with an OCR fallback for scanned pages), chunked, and indexed into MOSS with the page number kept on every chunk.
+* **Technician style diagnosis.** The assistant streams its reasoning the way a seasoned repair technician would. It gives the probable cause, the safe checks to run first, and the recommended fix, and it asks one focused follow up question when it needs more detail.
+* **Grounded citations.** Every claim points to the real manual file and page, validated against the chunks MOSS actually returned. Each answer also shows how fast MOSS responded.
+* **Marketplace and company dashboard.** Customers browse products by category while companies manage their products, manuals, analytics, and insights.
 
 ### Bonus
-- **📷 Image troubleshooting** — upload a photo of the fault; Gemini Vision reads error codes / damage and feeds it into retrieval.
-- **🖼️ Cited manual page, rendered** — the exact PDF page behind an answer is shown inline as an image.
-- **🗺️ Mermaid flowcharts** — multi‑step repair procedures are rendered as a diagnostic flow diagram.
-- **💬 Smart quick‑replies** — when the assistant asks a follow‑up, it offers 3 tap‑able answers tailored to *that* question (and hides them on final answers).
-- **⏹️ Stop & redirect** — stop a generating answer and send your new message, keeping the partial reply.
-- **🗣️ Voice** — speak your problem and hear the answer (Web Speech).
-- **👍 Feedback‑driven resolution rate** — 👍/👎 on answers drives the real resolution metric in analytics.
-- **📦 Ownership & alerts** — users add products to “My Products” and get warranty/recall/safety + auto‑extracted maintenance reminders.
-- **🧠 AI product insights** — the dashboard clusters look‑alike issues (LLM) into the top 3 “Common Issues” and generates *Behaviour Trends* + *Growth Suggestions* from real diagnostic data.
 
----
+* **Image troubleshooting.** Upload a photo of the fault and Gemini Vision reads error codes or visible damage and feeds that into the search.
+* **The cited manual page, rendered.** The exact PDF page behind an answer is shown inline as an image.
+* **Mermaid flowcharts.** Multi step repair procedures are drawn as a clear diagnostic flow diagram.
+* **Smart quick replies.** When the assistant asks a follow up question it offers three suggested answers you can tap, written for that exact question, and it hides them on final answers.
+* **Stop and redirect.** You can stop a generating answer and send a new message while keeping the partial reply.
+* **Voice.** Speak your problem and hear the answer read back.
+* **Feedback that means something.** A thumbs up or thumbs down on each answer is what drives the real resolution rate shown in the dashboard.
+* **Ownership and alerts.** Users add products to My Products and receive warranty, recall, safety, and automatically extracted maintenance reminders.
+* **AI product insights.** The dashboard groups similar complaints into the top three Common Issues and writes Behaviour Trends and Growth Suggestions from real diagnostic data.
 
-## 🏗️ How it works
+## How it works
 
-```
-Company uploads manual ──► parse + chunk ──► MOSS index (mantis, tagged product_id)
-                                                      │
-User describes problem (+ optional photo) ────────────┤
-        │                                             ▼
-   Gemini Vision (photo) ──► enriched query ──► MOSS hybrid retrieve (filtered, <10ms)
-                                                      │
-                                          top‑k manual chunks
-                                                      ▼
-                            Gemini technician loop (stream) ──► cited answer
-                                                      │
-                          citations validated vs retrieved chunks · page image · flowchart
-```
+1. A company uploads a manual. MANTIS parses and chunks it, then indexes the chunks into the shared MOSS index, tagging each chunk with the product it belongs to.
+2. A customer describes a problem and can attach a photo. Gemini Vision turns the photo into a short observation that makes the search sharper.
+3. MOSS runs a fast hybrid search, filtered to that one product, and returns the most relevant manual passages in a few milliseconds.
+4. Gemini reasons over only those passages and streams back a cited answer, with the manual page shown as an image and a flowchart when the fix has several steps.
 
-- **Retrieval:** MOSS (mandatory). One shared index, per‑product metadata filter.
-- **Reasoning / vision:** Google **Gemini** (`gemini-2.5-flash` family).
-- **Transport:** Server‑Sent Events stream the answer token‑by‑token.
+## Tech stack
 
----
+* Retrieval is handled by **MOSS**, using its cloud backed hybrid search.
+* Reasoning and vision use **Google Gemini**.
+* The backend is **FastAPI** with SQLModel and SQLite.
+* The frontend is **Next.js** with React, TypeScript, and Tailwind CSS.
+* Document parsing uses pdfplumber, PyPDF2, and pypdfium2, with a Tesseract OCR fallback for scanned manuals.
 
-## 🧰 Tech stack
+## Quickstart
 
-| Layer | Tech |
-|------|------|
-| Retrieval | **MOSS** (hybrid search, cloud‑backed) |
-| Reasoning / Vision | Google Gemini |
-| Backend | FastAPI · SQLModel · SQLite |
-| Frontend | Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 |
-| Ingest | pdfplumber / PyPDF2 / pypdfium2 (+ Tesseract OCR fallback) |
+You will need Python 3.10 or newer, Node 18 or newer, a [MOSS](https://github.com/usemoss/moss) project (the free tier is fine), and a Google AI Studio key for Gemini.
 
----
+### Backend
 
-## 🚀 Quickstart
-
-**Prerequisites:** Python 3.10+, Node 18+, a [MOSS](https://github.com/usemoss/moss) project (free tier) and a Google AI Studio (Gemini) key.
-
-### 1. Backend
 ```bash
 cd app/backend
-python -m venv .venv && .venv/Scripts/activate     # (use source .venv/bin/activate on macOS/Linux)
+python -m venv .venv && .venv/Scripts/activate     # on macOS or Linux: source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env                                # fill in MOSS + Gemini keys
-python seed.py                                      # demo company + 3 products (real manuals → MOSS)
+cp .env.example .env                                # then fill in your MOSS and Gemini keys
+python seed.py                                      # demo company and 3 products, real manuals indexed into MOSS
 python seed_real.py                                 # 7 more real products across categories
-uvicorn app.main:app --reload                       # → http://localhost:8000
+uvicorn app.main:app --reload                       # serves on http://localhost:8000
 ```
 
-### 2. Frontend
+### Frontend
+
 ```bash
 cd app/frontend
 npm install
-npm run dev                                         # → http://localhost:3000
+npm run dev                                          # serves on http://localhost:3000
 ```
 
-### 3. Try it
-- Open the marketplace, pick **Mi Electric Scooter Pro**, hit **Start Diagnosis**, and ask *“How do I charge it?”*
-- Company login: `demo@mantis.app` / `demo12345` → dashboard analytics & insights.
+### Try it
 
----
+Open the marketplace, pick the Mi Electric Scooter Pro, press Start Diagnosis, and ask how to charge it. To see the company side, log in with `demo@mantis.app` and the password `demo12345`, then open the dashboard for analytics and insights.
 
-## 📁 Project structure
+## Project structure
 
 ```
 app/
-├── backend/        FastAPI app — auth, products, MOSS ingest, SSE chat, analytics
-│   ├── app/        models · routers · services (ingest, moss, gemini)
-│   └── seed*.py    reproducible demo data (real manuals → MOSS)
-└── frontend/       Next.js app — marketplace, product + chat, company dashboard
-docs/               phase plans & blueprint
+  backend/      FastAPI app for auth, products, MOSS ingest, the SSE chat, and analytics
+  frontend/     Next.js app for the marketplace, product and chat pages, and the company dashboard
+docs/           planning documents and the demo video
 ```
 
----
+## Team Legends
 
-## 👥 Team Legends
+* [Harigithub11](https://github.com/Harigithub11)
+* [prithachanda12](https://github.com/prithachanda12)
+* [nayefsiddique-eng](https://github.com/nayefsiddique-eng)
+* [Primav3ra](https://github.com/Primav3ra)
 
-- [@Harigithub11](https://github.com/Harigithub11)
-- [@prithachanda12](https://github.com/prithachanda12)
-- [@nayefsiddique-eng](https://github.com/nayefsiddique-eng)
-- [@Primav3ra](https://github.com/Primav3ra)
-
-<div align="center"><sub>MANTIS — diagnosis, grounded in the manual. ⚡ Powered by MOSS.</sub></div>
+<div align="center"><sub>MANTIS. Diagnosis, grounded in the manual. Powered by MOSS.</sub></div>

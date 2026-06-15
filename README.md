@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="app/frontend/public/hero-image.png" alt="MANTIS" width="760" />
+<img src="app/frontend/public/readme.png" alt="MANTIS" width="760" />
 
 # 🦗 MANTIS
 
